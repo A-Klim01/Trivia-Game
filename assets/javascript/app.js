@@ -24,13 +24,23 @@ let timer;
 
 function loadQuestion() {
 
+    counter = 30;
+    timer = setInterval(counter, 1000);
+
+    $('#time').html('timer:' + counter);
+
+    if (counter === 0) {
+        timeUp();
+    }
+
     const question = quizQuestions[currentQuestion].question; //
     const choices = quizQuestions[currentQuestion].choices; //
 
     $('#timer').html('Timer:' + counter);
+
     $('#game').html('<h4>' + question + '</h4>');
 
-        $;{loadChoices(choices) };
+    $(loadChoices(choices) );
 
 
 
@@ -43,13 +53,13 @@ function loadQuestion() {
         let result = '';
 
         for (let i = 0; i < choices.length; i++) {
-            result += '<p class="choice" data-answer="${choices[i]}">${choices[i])</p>';
+            result += `<p class="choice" data-answer="${choices[i]}"> ${choices[i]} </p>`;
         }
-        //
+
 
         return result;
     }
 
-    loadQuestion();
-
+    
 }
+loadQuestion();

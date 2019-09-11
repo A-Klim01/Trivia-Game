@@ -2,4 +2,11 @@
     border: 1px solid light grey;
     padding: 10px;
     border-radius:4px
+
+}
+
+h1 {
+    color:navy;
+    text-align:center
+    font: 20px
 }
