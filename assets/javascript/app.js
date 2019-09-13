@@ -3,18 +3,31 @@ const quizQuestions = [
     {
         question: "What Venue did the Chicago Bears first play their games?",
         choices: ["Solider's Field", "Wrigley Field", "United Center", "Allstate Arena"],
-        correctAnswer: "Wrigley Field"
+        correctAnswer: "Wrigley Field",
+        name: "q1"
     },
 
     {
         question: "What Jersey number did Michael Jordan wear coming out of retirement in 1996?",
         choices: ["23", "33", "45", "34"],
-        correctAnswer: "45"
-    }];
+        correctAnswer: "45",
+        name: "q2"
+    },  
+    {  
+        question: "What year/season was Solider's Field renovated?",
+        choices: ["2005","1985","2010","1996"],
+        correctAnswer: "2005",
+        name:"q3"
+    },
+
+    
+
+
+    ];
 
 //Initial values
 
-let counter = 10;
+let counter = 5;
 let currentQuestion = 0;
 let score = 0;
 let lost = 0;
@@ -42,96 +55,113 @@ function timeUp() {
 
 }
 
-countdown; {
+// countdown; {
 
-    counter++;
+//     counter++;
 
-    $('#time').html('timer:' + counter);
+//     $('#time').html('timer:' + counter);
 
-}
+// }
 //display question and the choices for user to the browser
 
 function loadQuestion() {
 
     counter = 10;
-    timer = setInterval(countdown, 1000);
+    timer = setInterval(countDown, 1000);
 
-    $('#timer').html('timer:' + counter);
+    // $('#time').html('timer:' + counter);
+
+    
+
+}
+function countDown(){
+    counter--;
+    $('#time').html('Timer:' + counter);
 
     if (counter === 0) {
         timeUp();
 
         const question = quizQuestions[currentQuestion].question; //
-        const choices = quizQuestions[currentQuestion].choices; //
+        const choices = quizQuestions[currentQuestion]; //
 
         $('#time').html('timer:' + counter);
         $('#game').html('<h4>' + question + '</h4>');
-        ${loadchoices(choices)};
-        ${loadRemainingQuestions()}
-        
-        
+        loadChoices(choices);
+        loadRemainingQuestions();
+
+
 
 
     }
+};
+// loadRemainingQuestions()
+// loadQuestion();
 
-    function loadChoices(choices) {
-        let result = '';
-
-        for (let i = 0; i < choices.length; i++) {
-            result += `<p class="choice" data-answer="${choices[i]}"> ${choices[i]} </p>`;
-        }
-
-
-        return result;
+function loadChoices(data) {
+    let result = '';
+    console.log(data.choices.length)
+    for (let i = 0; i < data.choices.length; i++) {
+        console.log(data.choices[i])
+        result += `<input class="choices" type="radio" name="${data.name}" data-answer="${data.choices[i]}"/> ${data.choices[i]}`;
     }
-    //Start Game //
-    $(document).on('click', '.choices', function () {
-        clearInterval(timer);
-        const selectedAnswer = $(this).attr('data-answer');
-        const correctAnswer = quizQuestions[currentQuestion].correctAnswer
-        c
+    $('#game').append(result);
+    $('#game').append(`<br><button id="submit" type="submit">Submit</button>`)
 
-        if (correctAnswer === selectedAnswer) {
 
-            score++;
-            nextQuestion();
-        } else {
-            lost++;
-            nextQuestion();
+    return result;
+}
 
-            console.log('Win', selectedAnswer);
-        }
-    });;
+//Start Game //
+$(document).on('click', '#submit', function () {
+    clearInterval(timer);
+    const selectedAnswer = document.querySelector(`input[name="${quizQuestions[currentQuestion].name}"]:checked`).value;
+    const correctAnswer = quizQuestions[currentQuestion].correctAnswer
 
-    function displayResult() {
-        const result = `
+    console.log(selectedAnswer)
+    console.log(correctAnswer)
+
+
+    if (correctAnswer === selectedAnswer) {
+        console.log("in correct")
+        score++;
+        nextQuestion();
+    } else {
+        lost++;
+        nextQuestion();
+
+        console.log('Win', selectedAnswer);
+    }
+});;
+
+function displayResult() {
+    const result = `
     <p> You get ${score} question(s) right</p>
     <p> You missed ${lost} question(s) right</p>
     <p> Total questions ${quizQuestions.length} question(s) right </p>
     <button class="btn btn-primary" id="reset">Reset Game</button>
     `;
 
-        $('#game').html(result);
-    }
+    $('#game').html(result);
+}
 
-    $(document).on('click', '#reset', function() {
-        counter = 10;
-        currentQuestion = 0;
-        score = 0;
-        lost = 0;
-        timer = null;
+$(".btn-primary").on('click', function () {
+    counter = 3;
+    currentQuestion = 0;
+    score = 0;
+    lost = 0;
+    timer = null;
 
-        loadQuestion();
-    });;
+    loadQuestion();
+});
 
-    function loadRemainingQuestions() {
-        const remainingQuestions = quizQuestions.length - (currentQuestion + 1);
-        const totalQuestion = quizQuestion.length;
+function loadRemainingQuestions() {
+    const remainingQuestions = quizQuestions.length - (currentQuestion + 1);
+    const totalQuestion = quizQuestions.length;
 
-        return `Remaining Question: ${requestAnimationFrame}/${totalQuestion}`;
+    return `Remaining Question: ${requestAnimationFrame}/${totalQuestion}`;
 
-    }
+}
 
 
 
-loadQuestion();
+
